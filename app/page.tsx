@@ -31,9 +31,9 @@ export default function Home() {
           layout="intrinsic" />
       </div>
       <div className=" row-span-2 flex flex-row">
-        <motion.input className=" w-3/4 h-1/4 max-w-[500px] mx-auto
+        <motion.input className=" w-3/4 h-1/3 max-w-[500px] mx-auto
           my-auto border placeholder-shown:border-orange-600 rounded-lg outline-none text-center placeholder-shown:bg-orange-100 focus:bg-orange-50 focus:border-orange-500
-          focus:shadow-lg border-emerald-500 bg-lime-50" type="text"
+          focus:shadow-lg border-emerald-500 bg-lime-50 text-2xl" type="text"
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder="Enter your name"
