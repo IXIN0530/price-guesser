@@ -2,12 +2,12 @@
 
 import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 type Props = {
   searchParams: { [key: string]: string[] | string[] },
 }
 
-export default function Home() {
+function Home() {
   //パラメー
   const playerName = useSearchParams().get("name");
   const [isFocused, setIsFocused] = useState(false);
@@ -49,5 +49,13 @@ export default function Home() {
       <div className="row-span-1"></div>
 
     </div>
+  )
+}
+
+export default function HomeWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Home />
+    </Suspense>
   )
 }
