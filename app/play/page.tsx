@@ -3,6 +3,10 @@
 import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion";
 import { Suspense, useEffect, useRef, useState } from "react";
+import functions from "@/components/functions";
+import api from "@/components/api";
+import test from "node:test";
+import axios from "axios";
 type Props = {
   searchParams: { [key: string]: string[] | string[] },
 }
@@ -15,11 +19,33 @@ function Home() {
   //初回ロードの確認
   const didMount = useRef(false);
 
+  //関数の読み込み
+  const { makeQuery } = functions();
+
+  //商品情報をランダムに取得
+  const fetchItem = async () => {
+    const query = makeQuery();
+    //データを送る
+    try {
+      // const response = await fetch("/play/proxy/", { method: "GET" });
+      const testRes = await axios.get("/api/proxy/");
+      if (testRes.status !== 200) {
+        throw new Error("Something went wrong");
+      }
+      const data = await testRes.data;
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const OnClick = () => {
+    fetchItem();
   }
   useEffect(() => {
     if (didMount.current) {
       console.log("loaded")
+
     } else {
       didMount.current = true;
       console.log("first load")
