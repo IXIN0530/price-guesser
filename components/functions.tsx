@@ -39,9 +39,20 @@ export default function functions() {
     return questions;
   }
 
+  //descriptionを成形する
+  const convertDescription = (description: string) => {
+    description += ""
+    var res = description.replace(/<br>/g, '\n');
+    return res;
+  }
+  const convertURL = (url: string) => {
+
+  }
+
   return {
     makeQuery,
     makeQuestions,
+    convertDescription,
   }
 }
 

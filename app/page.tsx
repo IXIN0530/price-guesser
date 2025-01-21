@@ -24,7 +24,7 @@ export default function Home() {
       <div className="row-span-6 flex justify-center items-center">
         <Image
           className="h-full w-3/5 max-w-[500px]"
-          src={"/MainIcon.png"}
+          src="/MainIcon.png"
           alt=""
           width={1000}
           height={0}

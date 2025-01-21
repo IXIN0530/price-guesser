@@ -10,6 +10,7 @@ import axios from "axios";
 import { QuestionType } from "@/type";
 import QuestionField from "@/components/questionField";
 import Loading from "@/components/loading";
+import { a } from "framer-motion/m";
 type Props = {
   searchParams: { [key: string]: string[] | string[] },
 }
@@ -18,7 +19,7 @@ function Home() {
   //パラメー
   const playerName = useSearchParams().get("name");
   const [isFocused, setIsFocused] = useState(false);
-  const nameRef = useRef(null);
+  const priceRef = useRef<HTMLInputElement>(null);
   //問題の情報
   const [questions, setQuestions] = useState<QuestionType[]>();
   //今何問目
@@ -45,31 +46,45 @@ function Home() {
       //問題に整形
       const questions = makeQuestions(data, 1);
       setQuestions(questions);
-      console.log(questions);
+      // console.log(questions);
     } catch (e) {
       console.log(e);
     }
   }
 
+  //GuessButtonをクリックしたとき
   const OnClick = () => {
-    fetchItem();
+    //入力された値が不適切だったら
+    const price = priceRef.current!.value;
+    if (price == "" || Number(price) <= 0) {
+      alert("Please enter a valid number")
+      return;
+    }
+    else {
+      //答え合わせ
+      const answer = questions![questionNum].price;
+      const parcentage = Math.abs(Number(price)) / answer * 100;
+      alert("You guessed " + price + " yen\nThe answer is " + answer + " yen\npercentage is " + parcentage.toFixed(2) + "%");
+    }
   }
   useEffect(() => {
-    if (didMount.current) {
-      console.log("loaded")
+    if (!didMount.current) {
+      console.log("first load")
+      //問題の取得
+      fetchItem();
 
     } else {
       didMount.current = true;
-      console.log("first load")
+      console.log("loaded")
     }
 
   }, [])
   return (
-    <div className="min-h-[100svh] grid grid-rows-10">
+    <div className="min-h-[100svh] grid grid-rows-10 max-h-[105svh]">
       <div className="row-span-1 flex flex-col justify-center">
         <p className="text-center text-2xl font-bold">Question {questionNum + 1}</p>
       </div>
-      <div className="row-span-5 flex justify-center items-center">
+      <div className="row-span-5 flex justify-center items-center ">
         {questions && <QuestionField data={questions[questionNum]} />}
         {!questions && <Loading />}
       </div>
@@ -84,7 +99,7 @@ function Home() {
             scale: isFocused ? 1.01 : 1,
           }}
           transition={{ duration: 0.3, type: "spring", ease: "easeInOut", stiffness: 1000 }}
-          ref={nameRef}>
+          ref={priceRef}>
         </motion.input>
         <p>a</p>
       </div>

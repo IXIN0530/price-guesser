@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 export const GET = async () => {
   const { makeQuery } = functions();
   const query = makeQuery();
+  console.log(query)
 
   try {
     const response = await axios.get(`https://shopping.yahooapis.jp/ShoppingWebService/V3/itemSearch`, { params: query });
