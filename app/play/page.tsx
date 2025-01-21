@@ -9,6 +9,7 @@ import test from "node:test";
 import axios from "axios";
 import { QuestionType } from "@/type";
 import QuestionField from "@/components/questionField";
+import Loading from "@/components/loading";
 type Props = {
   searchParams: { [key: string]: string[] | string[] },
 }
@@ -68,9 +69,9 @@ function Home() {
       <div className="row-span-1 flex flex-col justify-center">
         <p className="text-center text-2xl font-bold">Question {questionNum + 1}</p>
       </div>
-      <div className="row-span-5 ">
+      <div className="row-span-5 flex justify-center items-center">
         {questions && <QuestionField data={questions[questionNum]} />}
-        {!questions && <p>loading...</p>}
+        {!questions && <Loading />}
       </div>
       <div className="flex flex-row row-span-2">
         <motion.input className=" w-3/4 h-1/3 max-w-[500px] mx-auto
