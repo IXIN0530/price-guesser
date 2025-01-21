@@ -1,3 +1,5 @@
+import { QuestionType } from "@/type";
+
 export default function functions() {
   //データ取得のためのクエリを作成する関数
   const makeQuery = () => {
@@ -7,11 +9,39 @@ export default function functions() {
     return {
       "appid": appid || "",
       "query": searchWord,
+      "results": 1,
     }
+  }
+
+  //YahooApiから得たdataを元に、指定された数の問題のオブジェクトを返す関数
+  const makeQuestions = (data: any, num: number) => {
+    const questions: QuestionType[] = [];
+    //ゲットしたデータ数
+    const dataLength: number = data.totalResultsReturned;
+    //ランダムな数をnumこだけ取得
+    const randomNumbers: number[] = [];
+    while (randomNumbers.length < num) {
+      const random = Math.floor(Math.random() * dataLength);
+      if (!randomNumbers.includes(random)) {
+        randomNumbers.push(random);
+      }
+    }
+    randomNumbers.forEach((randomNumber) => {
+      const item = data.hits[randomNumber];
+      const question: QuestionType = {
+        description: item.description,
+        price: item.price,
+        imageUrls: item.image.medium,
+      }
+      questions.push(question);
+    })
+
+    return questions;
   }
 
   return {
     makeQuery,
+    makeQuestions,
   }
 }
 

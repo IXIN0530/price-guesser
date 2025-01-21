@@ -1,0 +1,116 @@
+{
+    "data": {
+        "totalResultsAvailable": 8445679,
+        "totalResultsReturned": 1,
+        "firstResultsPosition": 1,
+        "request": {
+            "query": "組"
+        },
+        "hits": [
+            {
+                "index": 1,
+                "name": "ギフト カニ かに 蟹 ズワイガニ ポーション 刺身 生 カット生ずわい蟹 特盛 2.1kg 総重量 3kg 前後 お刺身ＯＫ 贈り物 誕生日 FF",
+                "description": "商品内容：カット生ずわい蟹2.1kg（700g×3パック）約9人前　総重量3kg前後<br>原材料：ズワイガニ（カナダ産、アメリカ産、ロシア産、バレンツ海）、酸化防止剤（ビタミンＣ）、調味料（アミノ酸等）<br>※製品ロッドにより産地と添加物が異なります。<br><br>賞味期限：冷凍−18℃以下で製造日より2年。解凍後は冷蔵保存にて当日中にお召し上がりください。<br>※ご家庭用の冷凍庫の場合、ドアの開閉が多く品質劣化する場合がありますので、出荷より1カ月以内を推奨しています。<br><br>お召し上がり方：お召し上がりの直前に流水で解凍してください。そのまま生でお召し上がりいただけます。",
+                "headLine": "ギフト お中元 敬老 プレゼント 3個 セット",
+                "url": "https://store.shopping.yahoo.co.jp/kouragumi/100007.html",
+                "inStock": true,
+                "code": "kouragumi_100007",
+                "condition": "new",
+                "imageId": "kouragumi_100007",
+                "image": {
+                    "small": "https://item-shopping.c.yimg.jp/i/c/kouragumi_100007",
+                    "medium": "https://item-shopping.c.yimg.jp/i/g/kouragumi_100007"
+                },
+                "review": {
+                    "count": 8882,
+                    "url": "https://shopping.yahoo.co.jp/review/item/list?store_id=kouragumi&page_key=100007",
+                    "rate": 4.39
+                },
+                "affiliateRate": 1,
+                "price": 12960,
+                "premiumPrice": 12960,
+                "premiumPriceStatus": false,
+                "premiumDiscountRate": null,
+                "premiumDiscountType": null,
+                "priceLabel": {
+                    "taxable": true,
+                    "defaultPrice": 12960,
+                    "discountedPrice": null,
+                    "fixedPrice": null,
+                    "premiumPrice": null,
+                    "periodStart": null,
+                    "periodEnd": null
+                },
+                "point": {
+                    "amount": 0,
+                    "times": 0,
+                    "bonusAmount": 120,
+                    "bonusTimes": 1,
+                    "lyLimitedBonusAmount": 0,
+                    "lyLimitedBonusTimes": 0,
+                    "premiumAmount": 0,
+                    "premiumTimes": 0,
+                    "premiumBonusAmount": 120,
+                    "premiumBonusTimes": 1,
+                    "lyLimitedPremiumBonusAmount": 0,
+                    "lyLimitedPremiumBonusTimes": 0
+                },
+                "shipping": {
+                    "code": 2,
+                    "name": "送料無料"
+                },
+                "genreCategory": {
+                    "id": 954,
+                    "name": "ズワイガニ",
+                    "depth": 4
+                },
+                "parentGenreCategories": [
+                    {
+                        "id": 2498,
+                        "depth": 1,
+                        "name": "食品"
+                    },
+                    {
+                        "id": 939,
+                        "depth": 2,
+                        "name": "魚介類、海産物"
+                    },
+                    {
+                        "id": 951,
+                        "depth": 3,
+                        "name": "カニ"
+                    }
+                ],
+                "brand": {
+                    "id": 59929,
+                    "name": "甲羅組"
+                },
+                "parentBrands": [
+                    {
+                        "id": 1,
+                        "name": "ブランド"
+                    }
+                ],
+                "janCode": "",
+                "payment": "4096 1 16 16384",
+                "releaseDate": null,
+                "seller": {
+                    "sellerId": "kouragumi",
+                    "name": "越前かに職人 甲羅組",
+                    "url": "https://store.shopping.yahoo.co.jp/kouragumi/",
+                    "isBestSeller": true,
+                    "review": {
+                        "rate": 4.67,
+                        "count": 31829
+                    },
+                    "imageId": "kouragumi_1"
+                },
+                "delivery": {
+                    "deadLine": 14,
+                    "day": 1,
+                    "area": "13"
+                }
+            }
+        ]
+    }
+}

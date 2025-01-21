@@ -7,6 +7,8 @@ import functions from "@/components/functions";
 import api from "@/components/api";
 import test from "node:test";
 import axios from "axios";
+import { QuestionType } from "@/type";
+import QuestionField from "@/components/questionField";
 type Props = {
   searchParams: { [key: string]: string[] | string[] },
 }
@@ -16,11 +18,15 @@ function Home() {
   const playerName = useSearchParams().get("name");
   const [isFocused, setIsFocused] = useState(false);
   const nameRef = useRef(null);
+  //問題の情報
+  const [questions, setQuestions] = useState<QuestionType[]>();
+  //今何問目
+  const [questionNum, setQuestionNum] = useState(0);
   //初回ロードの確認
   const didMount = useRef(false);
 
   //関数の読み込み
-  const { makeQuery } = functions();
+  const { makeQuery, makeQuestions } = functions();
 
   //商品情報をランダムに取得
   const fetchItem = async () => {
@@ -32,8 +38,13 @@ function Home() {
       if (testRes.status !== 200) {
         throw new Error("Something went wrong");
       }
+      //受け取ったJsonをファイルに保存
+      //受け取った商品情報 Jsonから変換
       const data = await testRes.data;
-      console.log(data);
+      //問題に整形
+      const questions = makeQuestions(data, 1);
+      setQuestions(questions);
+      console.log(questions);
     } catch (e) {
       console.log(e);
     }
@@ -50,14 +61,16 @@ function Home() {
       didMount.current = true;
       console.log("first load")
     }
+
   }, [])
   return (
     <div className="min-h-[100svh] grid grid-rows-10">
       <div className="row-span-1 flex flex-col justify-center">
-        <p className="text-center text-2xl font-bold">Question 1</p>
+        <p className="text-center text-2xl font-bold">Question {questionNum + 1}</p>
       </div>
-      <div className="row-span-5 bg-sky-100">
-
+      <div className="row-span-5 ">
+        {questions && <QuestionField data={questions[questionNum]} />}
+        {!questions && <p>loading...</p>}
       </div>
       <div className="flex flex-row row-span-2">
         <motion.input className=" w-3/4 h-1/3 max-w-[500px] mx-auto
