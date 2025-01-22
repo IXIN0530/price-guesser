@@ -63,7 +63,7 @@ function Home() {
     else {
       //答え合わせ
       const answer = questions![questionNum].price;
-      const parcentage = Math.abs(Number(price)) / answer * 100;
+      const parcentage = 100 - Math.abs(Number(price) - answer) / answer * 100;
       alert("You guessed " + price + " yen\nThe answer is " + answer + " yen\npercentage is " + parcentage.toFixed(2) + "%");
     }
   }

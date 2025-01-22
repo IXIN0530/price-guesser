@@ -5,7 +5,7 @@ export default function functions() {
   const makeQuery = () => {
     const textArray = text.split("")
     const searchWord = textArray[Math.floor(Math.random() * textArray.length)]
-    const appid = process.env.NEXT_PUBLIC_API_KEY;
+    const appid = process.env.API_KEY;
     return {
       "appid": appid || "",
       "query": searchWord,
