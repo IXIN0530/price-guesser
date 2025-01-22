@@ -17,6 +17,10 @@ type Props = {
 
 function Home() {
   //パラメー
+  //問題数
+  const howMany = 5;
+  //スコア(一旦、%のたしあわせ)
+  const [score, setScore] = useState(0);
   const playerName = useSearchParams().get("name");
   const [isFocused, setIsFocused] = useState(false);
   const priceRef = useRef<HTMLInputElement>(null);
@@ -26,6 +30,8 @@ function Home() {
   const [questionNum, setQuestionNum] = useState(0);
   //初回ロードの確認
   const didMount = useRef(false);
+  //問題終了済みか
+  const [isFinished, setIsFinished] = useState(false);
 
   //関数の読み込み
   const { makeQuery, makeQuestions } = functions();
@@ -35,25 +41,45 @@ function Home() {
     const query = makeQuery();
     //データを送る
     try {
-      // const response = await fetch("/play/proxy/", { method: "GET" });
+      //一分間に1回のアクセス制限
+      //1分に一回のみのアクセス
+      var day = new Date();
+      const time = [day.getHours(), day.getMinutes()];
+      const preTime = localStorage.getItem("TIME");
+      if (preTime == null) localStorage.setItem("TIME", JSON.stringify(time));
+      else {
+        const preTImeArray = JSON.parse(preTime)
+        if (preTImeArray[0] == time[0] && preTImeArray[1] == time[1]) {
+          throw new Error("1分間に1回のアクセス制限を超えています。")
+        }
+      }
+      //データ取得
       const testRes = await axios.get("/api/proxy/");
+      localStorage.setItem("TIME", JSON.stringify(time))
+      console.log(JSON.stringify(time))
       if (testRes.status !== 200) {
-        throw new Error("Something went wrong");
+        throw new Error("Something went wrong. status:" + testRes.status);
       }
       //受け取ったJsonをファイルに保存
       //受け取った商品情報 Jsonから変換
       const data = await testRes.data;
       //問題に整形
-      const questions = makeQuestions(data, 1);
+      const questions = makeQuestions(data, howMany);
       setQuestions(questions);
+      console.log(questions);
       // console.log(questions);
     } catch (e) {
-      console.log(e);
+      alert(e);
     }
   }
 
   //GuessButtonをクリックしたとき
   const OnClick = () => {
+    //まだ問題が始まっていない場合
+    if (!questions) {
+      alert("Please wait a moment")
+      return;
+    }
     //入力された値が不適切だったら
     const price = priceRef.current!.value;
     if (price == "" || Number(price) <= 0) {
@@ -64,7 +90,18 @@ function Home() {
       //答え合わせ
       const answer = questions![questionNum].price;
       const parcentage = 100 - Math.abs(Number(price) - answer) / answer * 100;
+      priceRef.current!.value = "";
+      if (!isFinished) setScore(score + parcentage);
       alert("You guessed " + price + " yen\nThe answer is " + answer + " yen\npercentage is " + parcentage.toFixed(2) + "%");
+      //次に問題がある場合、進む。
+      if (questionNum < howMany - 1) {
+        setQuestionNum(questionNum + 1);
+      }
+      else {
+        //結果発表
+        setIsFinished(true);
+        alert("Your score is " + score.toFixed(2))
+      }
     }
   }
   useEffect(() => {
@@ -101,7 +138,6 @@ function Home() {
           transition={{ duration: 0.3, type: "spring", ease: "easeInOut", stiffness: 1000 }}
           ref={priceRef}>
         </motion.input>
-        <p>a</p>
       </div>
       <div className="row-span-1  flex flex-row">
         <motion.button className="w-1/3 bg-gradient-to-br from-emerald-400 to-emerald-300 my-2 mx-auto max-w-[400px] rounded-xl

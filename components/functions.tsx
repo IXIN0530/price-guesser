@@ -9,7 +9,7 @@ export default function functions() {
     return {
       "appid": appid || "",
       "query": searchWord,
-      "results": 1,
+      "results": 100,
     }
   }
 
@@ -29,7 +29,7 @@ export default function functions() {
     randomNumbers.forEach((randomNumber) => {
       const item = data.hits[randomNumber];
       const question: QuestionType = {
-        description: item.description,
+        description: item.description || item.name,
         price: item.price,
         imageUrls: item.image.medium,
       }
