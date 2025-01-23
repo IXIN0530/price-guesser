@@ -72,9 +72,12 @@ export default function Home() {
           <Link href={"/play"} className=" absolute inset-1  flex flex-col justify-center">Play</Link>
         </motion.button>
       </div>
-      <div className="bg-gray-0 row-span-1 text-center my-auto">
+      <div className="bg-gray-0 row-span-1 my-auto flex justify-center gap-10">
         <Link href={"/rules"} className=" underline">
           点数の計算方式はこちら
+        </Link>
+        <Link href={"/localRanking"} className=" underline">
+          My ランキング
         </Link>
       </div>
 

@@ -72,6 +72,31 @@ function Home() {
     }
   }
 
+  const saveData = (score: number) => {
+    //一旦ローカルに保存
+    const preData = localStorage.getItem("preScore");
+    if (preData == null) {
+      localStorage.setItem("preScore", JSON.stringify([score]));
+    }
+    //過去のデータがある場合、ソートして新たに保存
+    else {
+      var preDataArray: number[] = JSON.parse(preData);
+      //差し込み
+      for (var i = 0; i < preDataArray.length; i++) {
+        if (score >= preDataArray[i]) {
+          preDataArray.splice(i, 0, score);
+          break;
+        }
+        //最低スコアだった場合
+        else if (i == preDataArray.length - 1) {
+          preDataArray.push(score);
+          break;
+        }
+      }
+      localStorage.setItem("preScore", JSON.stringify(preDataArray));
+    }
+  }
+
   //GuessButtonをクリックしたとき
   const OnClick = () => {
     //まだ問題が始まっていない場合
@@ -103,7 +128,10 @@ function Home() {
       }
       else {
         //結果発表
-        if (!isFinished) alert("Your total score is " + totalScore.toFixed(2))
+        if (!isFinished) {
+          saveData(totalScore);
+          alert("Your total score is " + totalScore.toFixed(2))
+        }
         else alert("Your total score is " + score.toFixed(2))
         setIsFinished(true);
       }
