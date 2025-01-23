@@ -109,12 +109,12 @@ function Home() {
   }
   useEffect(() => {
     if (!didMount.current) {
+      didMount.current = true;
       console.log("first load")
       //問題の取得
       fetchItem();
 
     } else {
-      didMount.current = true;
       console.log("loaded")
     }
 
