@@ -33,6 +33,7 @@ export default function functions() {
         description: item.description || item.name,
         price: item.price,
         imageUrls: item.image.medium,
+        name: item.name,
       }
       questions.push(question);
     })
