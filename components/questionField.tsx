@@ -28,6 +28,7 @@ const QuestionField = ({ data }: Props) => {
           </p>
         </div>
         <div className="col-span-1 overflow-y-scroll">
+          <p className="text-sm text-center py-2">Title</p>
           <p className="text-lg whitespace-pre-wrap">
             {data.name}
           </p>
