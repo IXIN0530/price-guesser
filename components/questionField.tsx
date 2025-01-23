@@ -18,7 +18,8 @@ const QuestionField = ({ data }: Props) => {
           height={500}
           src={data.imageUrls.replace(/\/g\//, "/n/")}
           alt=""
-          layout="intrinsic" />
+          layout="intrinsic"
+          unoptimized />
       </div>
       <div className="row-span-1 flex justify-center overflow-y-scroll">
         <p className="text-lg whitespace-pre-wrap">{convertDescription(data.description)}</p>

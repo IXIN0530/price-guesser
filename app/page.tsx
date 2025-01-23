@@ -45,7 +45,8 @@ export default function Home() {
           alt=""
           width={1000}
           height={0}
-          layout="intrinsic" />
+          layout="intrinsic"
+          unoptimized />
       </div>
       <div className=" row-span-2 flex flex-row">
         <motion.input className=" w-3/4 h-1/3 max-w-[500px] mx-auto
