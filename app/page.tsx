@@ -1,13 +1,16 @@
 "use client"
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 export default function Home() {
   //nameにフォーカスしているかどうか
   const [isFocused, setIsFocused] = useState(false);
   //inputのref
   const nameRef = useRef<HTMLInputElement>(null);
+  //初回マウント
+  const didMount = useRef(false);
   const router = useRouter();
   //PlayButtonが押された
   const OnClick = () => {
@@ -16,9 +19,22 @@ export default function Home() {
       router.push("/play?name=" + Math.random().toString(36).slice(-8));
       return;
     }
+    //名前を保存
+    localStorage.setItem("PlayerName", nameRef.current!.value);
     router.push("/play?name=" + nameRef.current!.value);
     return;
   }
+  //過去に使っていた名前の取得
+  useEffect(() => {
+    //初回マウント時
+    if (!didMount.current) {
+      didMount.current = true;
+      if (localStorage.getItem("PlayerName") !== null) {
+        nameRef.current!.value = localStorage.getItem("PlayerName")!;
+      }
+      return;
+    }
+  }, [])
   return (
     <div className="min-h-[100svh] grid grid-rows-10">
       <div className="row-span-6 flex justify-center items-center">
@@ -54,7 +70,11 @@ export default function Home() {
           Play
         </motion.button>
       </div>
-      <div className="bg-gray-0 row-span-1"></div>
+      <div className="bg-gray-0 row-span-1 text-center my-auto">
+        <Link href={"/rules"} className=" underline">
+          点数の計算方式はこちら
+        </Link>
+      </div>
 
     </div>
   );

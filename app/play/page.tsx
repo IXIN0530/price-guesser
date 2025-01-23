@@ -4,13 +4,10 @@ import { useSearchParams } from "next/navigation"
 import { motion } from "framer-motion";
 import { Suspense, useEffect, useRef, useState } from "react";
 import functions from "@/components/functions";
-import api from "@/components/api";
-import test from "node:test";
 import axios from "axios";
 import { QuestionType } from "@/type";
 import QuestionField from "@/components/questionField";
 import Loading from "@/components/loading";
-import { a } from "framer-motion/m";
 type Props = {
   searchParams: { [key: string]: string[] | string[] },
 }
@@ -34,7 +31,7 @@ function Home() {
   const [isFinished, setIsFinished] = useState(false);
 
   //関数の読み込み
-  const { makeQuery, makeQuestions } = functions();
+  const { makeQuery, makeQuestions, scoreConvert } = functions();
 
   //商品情報をランダムに取得
   const fetchItem = async () => {
@@ -89,10 +86,11 @@ function Home() {
     else {
       //答え合わせ
       const answer = questions![questionNum].price;
-      const parcentage = 100 - Math.abs(Number(price) - answer) / answer * 100;
+      const thisScore = scoreConvert(Number(price), answer);
+      const totalScore = score + thisScore;
       priceRef.current!.value = "";
-      if (!isFinished) setScore(score + parcentage);
-      alert("You guessed " + price + " yen\nThe answer is " + answer + " yen\npercentage is " + parcentage.toFixed(2) + "%");
+      if (!isFinished) setScore(totalScore);
+      alert("You guessed " + price + " yen\nThe answer is " + answer + " yen\nThe score is " + thisScore.toFixed(2));
       //次に問題がある場合、進む。
       if (questionNum < howMany - 1) {
         setQuestionNum(questionNum + 1);
@@ -100,7 +98,7 @@ function Home() {
       else {
         //結果発表
         setIsFinished(true);
-        alert("Your score is " + score.toFixed(2))
+        alert("Your total score is " + totalScore.toFixed(2))
       }
     }
   }

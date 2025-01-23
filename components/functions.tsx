@@ -1,4 +1,5 @@
 import { QuestionType } from "@/type";
+import { pre } from "framer-motion/m";
 
 export default function functions() {
   //データ取得のためのクエリを作成する関数
@@ -45,14 +46,21 @@ export default function functions() {
     var res = description.replace(/<br>/g, '\n');
     return res;
   }
-  const convertURL = (url: string) => {
-
+  //scoreを計算する
+  const scoreConvert = (predict: number, answer: number) => {
+    if (predict == 0) return 0;
+    const ratio = predict / answer;
+    //ratioが3と1/3を同じスコアにするために、1より大きい数字に統一する
+    const param = Math.max(ratio, 1 / ratio);
+    const score = 100 / Math.pow(2, param - 1);
+    return score;
   }
 
   return {
     makeQuery,
     makeQuestions,
     convertDescription,
+    scoreConvert,
   }
 }
 
