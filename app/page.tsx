@@ -16,12 +16,13 @@ export default function Home() {
   const OnClick = () => {
     //名前が未入力の場合、ランダムにIDを生成
     if (nameRef.current!.value === "") {
-      router.push("/play?name=" + Math.random().toString(36).slice(-8));
+      // router.push("/play?name=" + Math.random().toString(36).slice(-8));
+      localStorage.setItem("PlayerName", Math.random().toString(36).slice(-8));
       return;
     }
     //名前を保存
     localStorage.setItem("PlayerName", nameRef.current!.value);
-    router.push("/play?name=" + nameRef.current!.value);
+    // router.push("/play?name=" + nameRef.current!.value);
     return;
   }
   //過去に使っていた名前の取得
@@ -63,11 +64,11 @@ export default function Home() {
       </div>
       <div className="row-span-1 flex flex-row">
         <motion.button className="w-1/3 bg-gradient-to-br from-emerald-400 to-emerald-300 my-2 mx-auto max-w-[400px] rounded-xl
-        shadow-xl text-white text-xl font-bold"
+        shadow-xl text-white text-xl font-bold relative"
           whileTap={{ scale: 0.9, boxShadow: "0px 0px 0px 0px", translateY: 7 }}
           transition={{ type: "spring", duration: 0.3, stiffness: 500 }}
           onClick={OnClick}>
-          Play
+          <Link href={"/play"} className=" absolute inset-1  flex flex-col justify-center">Play</Link>
         </motion.button>
       </div>
       <div className="bg-gray-0 row-span-1 text-center my-auto">

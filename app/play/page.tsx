@@ -80,6 +80,10 @@ function Home() {
     //入力された値が不適切だったら
     const price = priceRef.current!.value;
     if (price == "" || Number(price) <= 0) {
+      if (isFinished) {
+        alert("Your total score is " + score.toFixed(2))
+        return;
+      }
       alert("Please enter a valid number")
       return;
     }
@@ -97,8 +101,9 @@ function Home() {
       }
       else {
         //結果発表
+        if (!isFinished) alert("Your total score is " + totalScore.toFixed(2))
+        else alert("Your total score is " + score.toFixed(2))
         setIsFinished(true);
-        alert("Your total score is " + totalScore.toFixed(2))
       }
     }
   }
