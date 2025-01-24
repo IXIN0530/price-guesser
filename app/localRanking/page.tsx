@@ -30,7 +30,7 @@ const Home = () => {
     }
   }, []);
   return (
-    <div className="min-h-[100svh] bg-slate-300 mx-2 relative">
+    <div className="min-h-[100svh]  mx-2 relative">
       <div className=" grid grid-rows-10 max-w-[1000px] mx-auto absolute inset-0">
         <h1 className="text-center row-span-1 my-auto font-bold text-xl">マイスコア</h1>
         <div className=" relative row-span-7 items-center overflow-y-scroll border-2 border-orange-300 bg-gradient-to-br from-orange-100 to-orange-50 ">
