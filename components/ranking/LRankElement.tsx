@@ -12,6 +12,13 @@ type Props = {
 const LRankElement = ({ scoreData, index }: Props) => {
   const { pointColor } = functions()
   const [isClicked, setIsClicked] = useState(false);
+  //後ろにth,st,nd,rdをつける関数
+  const addSuffix = (num: number) => {
+    if (num == 1) return num + "st";
+    else if (num == 2) return num + "nd";
+    else if (num == 3) return num + "rd";
+    else return num + "th";
+  }
   return (
     <div className="flex py-4 justify-center gap-5 flex-col border-b-2 border-slate-500"
       onClick={() => setIsClicked(!isClicked)}
@@ -19,9 +26,18 @@ const LRankElement = ({ scoreData, index }: Props) => {
       <motion.div className="grid grid-cols-10  items-center "
       >
         <div className="col-span-1"></div>
-        <p className="col-span-1 text-center  text-3xl">{index + 1}</p>
+        <p className="col-span-1 text-center  text-3xl">
+          {addSuffix(index + 1)}
+        </p>
         <div className="col-span-3"></div>
-        <p className="col-span-5 text-center text-2xl font-bold select-none">{scoreData.score.toFixed(2)}</p>
+        <p className="col-span-4 text-center text-2xl font-bold select-none">{scoreData.score.toFixed(2)}</p>
+        <div className="col-span-1 mx-auto">
+          <motion.svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6"
+            initial={{ rotate: 0, opacity: 1 }}
+            animate={{ rotate: isClicked ? 90 : 0 }}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5" />
+          </motion.svg>
+        </div>
       </motion.div>
       <AnimatePresence>
         {isClicked && (
