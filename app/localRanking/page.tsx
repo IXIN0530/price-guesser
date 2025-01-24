@@ -1,4 +1,5 @@
 "use client"
+import LRankElement from "@/components/ranking/LRankElement";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 const Home = () => {
@@ -22,16 +23,10 @@ const Home = () => {
   return (
     <div className="min-h-[100svh] grid grid-rows-10 mx-2">
       <h1 className="text-center row-span-1 my-auto font-bold text-xl">マイスコア</h1>
-      <div className=" gap-2 row-span-7 grid grid-rows-7 items-center overflow-y-scroll border-2 border-orange-300 bg-orange-50">
+      <div className=" gap-2 row-span-7 grid grid-rows-7 items-center overflow-y-scroll border-2 border-orange-300 bg-gradient-to-br from-orange-100 to-orange-50 ">
         {preScoreArray.map((score, index) => {
           return (
-            <div className=" row-span-1 flex justify-between items-center border-b-2 border-slate-500  w-full " key={index}>
-              <div>　</div>
-              <p className="text-center font-bold text-3xl">{index + 1}</p>
-              <div>　</div>
-              <p className=" text-center text-2xl">{score.toFixed(2)}</p>
-              <div>　</div>
-            </div>
+            <LRankElement score={score} index={index} key={index} />
           )
         })}
       </div>
