@@ -34,8 +34,8 @@ export default function Home() {
       didMount.current = true;
       if (localStorage.getItem("PlayerName") !== null) {
         nameRef.current!.value = localStorage.getItem("PlayerName")!;
-        localStorage.removeItem("preScore");
-        localStorage.setItem("preScore", JSON.stringify([499, 400, 400, 400, 400, 400, 400]));
+        // localStorage.removeItem("preScore");
+        // localStorage.setItem("preScore", JSON.stringify([499, 400, 400, 400, 400, 400, 400]));
       }
       //旧データを変換
       convertOldData();
