@@ -13,7 +13,7 @@ const LRankElement = ({ scoreData, index }: Props) => {
   const { pointColor } = functions()
   const [isClicked, setIsClicked] = useState(false);
   return (
-    <div className="h-full flex justify-center gap-5 flex-col  row-span-1 border-b-2 border-slate-500"
+    <div className="flex py-4 justify-center gap-5 flex-col border-b-2 border-slate-500"
       onClick={() => setIsClicked(!isClicked)}
       style={{ gridRow: !isClicked ? "span 1" : "span 2" }}>
       <motion.div className="grid grid-cols-10  items-center "
@@ -30,7 +30,7 @@ const LRankElement = ({ scoreData, index }: Props) => {
             animate={{ opacity: 1, scaleY: 1 }}
             exit={{ opacity: 0, transition: { duration: 0 } }}
             transition={{ duration: 0.3 }}
-            className=" h-1/2 flex flex-col justify-center">
+            className=" flex flex-col justify-center">
             <div className="grid grid-cols-10 items-center h-full ">
               <p className="font-bold text-2xl col-span-2 ">Points:</p>
               <div className="col-span-4  h-full grid grid-rows-2 grid-cols-5  overflow-y-scroll">
