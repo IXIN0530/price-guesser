@@ -15,8 +15,14 @@ const Home = () => {
       const local = localStorage.getItem("preScore");
       //localにスコア情報が存在する時
       if (local != null) {
-        const preScoreArray: LocalRankingType[] = JSON.parse(local);
-        setPreScoreArray(preScoreArray);
+        try {
+          const preScoreArray: LocalRankingType[] = JSON.parse(local);
+          setPreScoreArray(preScoreArray);
+        }
+        catch (e) {
+          alert("過去のデータタイプと現在のデータタイプが競合しています。\n過去のデータを削除しますが、もし嫌ならタスクキルしてください。");
+          localStorage.removeItem("preScore");
+        }
       }
       return;
     }
