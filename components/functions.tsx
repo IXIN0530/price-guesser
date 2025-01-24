@@ -76,9 +76,9 @@ export default function functions() {
   const pointColor = (point: number) => {
     if (point >= 95) return "#FF0000";
     else if (point >= 90) return "#FF6600";
-    else if (point >= 80) return "#FFCC00";
+    else if (point >= 80) return "#FF8800";
     else if (point >= 70) return "#99FF00";
-    else if (point >= 60) return "#00BB00";
+    else if (point >= 60) return "##04dbdb";
     else if (point >= 50) return "#00DD77";
     else return "#00000077";
   }
