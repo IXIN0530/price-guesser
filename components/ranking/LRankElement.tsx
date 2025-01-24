@@ -31,16 +31,40 @@ const LRankElement = ({ scoreData, index }: Props) => {
             exit={{ opacity: 0, transition: { duration: 0 } }}
             transition={{ duration: 0.3 }}
             className=" h-1/2 flex flex-col justify-center">
-            <div className="grid grid-cols-10 items-center ">
+            <div className="grid grid-cols-10 items-center h-full ">
               <p className="font-bold text-2xl col-span-2 ">Points:</p>
-              <div className="col-span-4 flex justify-between mx-2 gap-2 overflow-scroll">
+              <div className="col-span-4  h-full grid grid-rows-2 grid-cols-5  overflow-y-scroll">
                 {scoreData.pointDetail.map((point, index) => {
-                  return (
-                    <p key={index} className="text-lg my-auto font-bold"
-                      style={{ color: pointColor(point) }}>
+                  if (index == 0 || index == 1)
+                    return (
+                      <p key={index} className="text-xl my-auto font-bold row-span-1 col-span-2 text-left"
+                        style={{ color: pointColor(point) }}>
                         {point.toFixed(1)}
-                    </p>
-                  )
+                      </p>
+                    )
+                  else if (index == 2)
+                    return (
+                      <p key={index} className="text-xl my-auto font-bold col-span-1 row-span-1"
+                        style={{ color: pointColor(point) }}>
+                        {point.toFixed(1)}
+                        <br></br>
+                      </p>
+                    )
+                  else if (index == 3)
+                    return (
+                      <p key={index} className="text-xl my-auto font-bold col-span-3 row-span-1 text-center"
+                        style={{ color: pointColor(point) }}>
+                        {point.toFixed(1)}
+                      </p>
+                    )
+                  else
+                    return (
+                      <p key={index} className="text-xl my-auto font-bold col-span-2 row-span-1 text-left"
+                        style={{ color: pointColor(point) }}>
+                        {point.toFixed(1)}
+                      </p>
+                    )
+
                 })}
               </div>
               <p className="col-span-2 text-center overflow-hidden">{scoreData.date}</p>
