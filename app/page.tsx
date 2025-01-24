@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import functions from "@/components/functions";
 export default function Home() {
   //nameにフォーカスしているかどうか
   const [isFocused, setIsFocused] = useState(false);
@@ -12,6 +13,7 @@ export default function Home() {
   //初回マウント
   const didMount = useRef(false);
   const router = useRouter();
+  const { convertOldData } = functions();
   //PlayButtonが押された
   const OnClick = () => {
     //名前が未入力の場合、ランダムにIDを生成
@@ -35,6 +37,8 @@ export default function Home() {
         // localStorage.removeItem("preScore");
         // localStorage.setItem("preScore", JSON.stringify([12, 32, 10]));
       }
+      //旧データを変換
+      convertOldData();
       return;
     }
   }, [])

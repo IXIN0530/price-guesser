@@ -83,6 +83,30 @@ export default function functions() {
     else return "#00000077";
   }
 
+  //過去データを現在の形式に変換
+  const convertOldData = () => {
+    const oldData = localStorage.getItem("preScore");
+    if (oldData === null) return;
+    const oldDataArray = JSON.parse(oldData);
+    var newArray: LocalRankingType[] = [];
+    for (var i = 0; i < oldDataArray.length; i++) {
+      //旧データはnumber型のデータ構造をしている
+      if (typeof oldDataArray[i] === "number") {
+        const newLocalRanking: LocalRankingType = {
+          score: oldDataArray[i],
+          name: "",
+          date: "",
+          pointDetail: [],
+        }
+        newArray.push(newLocalRanking);
+      }
+      else {
+        newArray.push(oldDataArray[i]);
+      }
+    }
+    localStorage.setItem("preScore", JSON.stringify(newArray));
+    console.log(newArray);
+  }
   return {
     makeQuery,
     makeQuestions,
@@ -90,6 +114,7 @@ export default function functions() {
     scoreConvert,
     makeLocalRanking,
     pointColor,
+    convertOldData,
   }
 }
 
