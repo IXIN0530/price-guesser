@@ -8,7 +8,7 @@ import axios from "axios";
 import { LocalRankingType, QuestionType } from "@/type";
 import QuestionField from "@/components/questionField";
 import Loading from "@/components/loading";
-import { div } from "framer-motion/m";
+import { div, pre } from "framer-motion/m";
 import Link from "next/link";
 type Props = {
   searchParams: { [key: string]: string[] | string[] },
@@ -89,7 +89,15 @@ function Home() {
     }
     //過去のデータがある場合、ソートして新たに保存
     else {
-      var preDataArray: LocalRankingType[] = JSON.parse(preData);
+      var preDataArray: LocalRankingType[];
+      try {
+        preDataArray = JSON.parse(preData);
+      }
+      catch (e) {
+        alert("過去のデータタイプと現在のデータタイプが競合しています。\n過去のデータを削除しますが、もし嫌ならタスクキルしてください。");
+        localStorage.removeItem("preScore");
+        return;
+      }
       //差し込み
       for (var i = 0; i < preDataArray.length; i++) {
         if (score >= preDataArray[i].score) {
