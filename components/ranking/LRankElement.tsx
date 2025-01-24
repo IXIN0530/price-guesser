@@ -37,7 +37,9 @@ const LRankElement = ({ scoreData, index }: Props) => {
                 {scoreData.pointDetail.map((point, index) => {
                   return (
                     <p key={index} className="text-lg my-auto font-bold"
-                      style={{ color: pointColor(point) }}>{point.toFixed(1)}</p>
+                      style={{ color: pointColor(point) }}>
+                        {point.toFixed(1)}
+                    </p>
                   )
                 })}
               </div>
