@@ -1,4 +1,4 @@
-import { QuestionType } from "@/type";
+import { LocalRankingType, QuestionType } from "@/type";
 import { pre } from "framer-motion/m";
 
 export default function functions() {
@@ -57,11 +57,27 @@ export default function functions() {
     return score;
   }
 
+  //localRankingのデータを生成
+  const makeLocalRanking = (score: number, pointDetail: number[]) => {
+    //pointDetailにはusestateの関係か、最後の値が入っていない。
+    //そのため、最後の値を追加して返す。
+    const lastValue = score - pointDetail.reduce((a, b) => a + b, 0);
+    const date = new Date();
+    const localRanking: LocalRankingType = {
+      score: score,
+      name: localStorage.getItem("PlayerName") || "名無し",
+      date: date.toLocaleDateString(),
+      pointDetail: [...pointDetail, lastValue],
+    }
+    return localRanking
+  }
+
   return {
     makeQuery,
     makeQuestions,
     convertDescription,
     scoreConvert,
+    makeLocalRanking,
   }
 }
 

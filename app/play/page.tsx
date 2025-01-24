@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Suspense, useEffect, useRef, useState } from "react";
 import functions from "@/components/functions";
 import axios from "axios";
-import { QuestionType } from "@/type";
+import { LocalRankingType, QuestionType } from "@/type";
 import QuestionField from "@/components/questionField";
 import Loading from "@/components/loading";
 import { div } from "framer-motion/m";
@@ -20,6 +20,9 @@ function Home() {
   const howMany = 5;
   //スコア(一旦、%のたしあわせ)
   const [score, setScore] = useState(0);
+  //スコア履歴
+  const [scoreArray, setScoreArray] = useState<number[]>([]);
+  //プレイヤー名
   const playerName = useSearchParams().get("name");
   const [isFocused, setIsFocused] = useState(false);
   const priceRef = useRef<HTMLInputElement>(null);
@@ -33,7 +36,10 @@ function Home() {
   const [isFinished, setIsFinished] = useState(false);
 
   //関数の読み込み
-  const { makeQuery, makeQuestions, scoreConvert } = functions();
+  const { makeQuery,
+    makeQuestions,
+    scoreConvert,
+    makeLocalRanking } = functions();
 
   //商品情報をランダムに取得
   const fetchItem = async () => {
@@ -73,27 +79,31 @@ function Home() {
   }
 
   const saveData = (score: number) => {
+    //スコアアブジェクトの生成
+    const thisScoreData = makeLocalRanking(score, scoreArray);
     //一旦ローカルに保存
     const preData = localStorage.getItem("preScore");
     if (preData == null) {
-      localStorage.setItem("preScore", JSON.stringify([score]));
+      localStorage.setItem("preScore", JSON.stringify([thisScoreData]));
+      setScoreArray([]);
     }
     //過去のデータがある場合、ソートして新たに保存
     else {
-      var preDataArray: number[] = JSON.parse(preData);
+      var preDataArray: LocalRankingType[] = JSON.parse(preData);
       //差し込み
       for (var i = 0; i < preDataArray.length; i++) {
-        if (score >= preDataArray[i]) {
-          preDataArray.splice(i, 0, score);
+        if (score >= preDataArray[i].score) {
+          preDataArray.splice(i, 0, thisScoreData);
           break;
         }
         //最低スコアだった場合
         else if (i == preDataArray.length - 1) {
-          preDataArray.push(score);
+          preDataArray.push(thisScoreData);
           break;
         }
       }
       localStorage.setItem("preScore", JSON.stringify(preDataArray));
+      setScoreArray([]);
     }
   }
 
@@ -120,6 +130,8 @@ function Home() {
       const thisScore = scoreConvert(Number(price), answer);
       const totalScore = score + thisScore;
       priceRef.current!.value = "";
+      //スコア更新
+      setScoreArray([...scoreArray, thisScore]);
       if (!isFinished) setScore(totalScore);
       alert("You guessed " + price + " yen\nThe answer is " + answer + " yen\nThe score is " + thisScore.toFixed(2));
       //次に問題がある場合、進む。

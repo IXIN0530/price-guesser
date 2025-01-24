@@ -1,11 +1,12 @@
 "use client"
 import LRankElement from "@/components/ranking/LRankElement";
+import { LocalRankingType } from "@/type";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 const Home = () => {
   //初回マウントの確認
   const didMount = useRef(false);
-  const [preScoreArray, setPreScoreArray] = useState<number[]>([]);
+  const [preScoreArray, setPreScoreArray] = useState<LocalRankingType[]>([]);
 
   useEffect(() => {
     //初回マウント時
@@ -14,7 +15,7 @@ const Home = () => {
       const local = localStorage.getItem("preScore");
       //localにスコア情報が存在する時
       if (local != null) {
-        const preScoreArray: number[] = JSON.parse(local);
+        const preScoreArray: LocalRankingType[] = JSON.parse(local);
         setPreScoreArray(preScoreArray);
       }
       return;
@@ -23,10 +24,10 @@ const Home = () => {
   return (
     <div className="min-h-[100svh] grid grid-rows-10 mx-2">
       <h1 className="text-center row-span-1 my-auto font-bold text-xl">マイスコア</h1>
-      <div className=" gap-2 row-span-7 grid grid-rows-7 items-center overflow-y-scroll border-2 border-orange-300 bg-gradient-to-br from-orange-100 to-orange-50 ">
+      <div className="row-span-7 grid grid-rows-7 items-center overflow-y-scroll border-2 border-orange-300 bg-gradient-to-br from-orange-100 to-orange-50 ">
         {preScoreArray.map((score, index) => {
           return (
-            <LRankElement score={score} index={index} key={index} />
+            <LRankElement scoreData={score} index={index} key={index} />
           )
         })}
       </div>

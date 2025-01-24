@@ -1,24 +1,50 @@
 "use client"
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { LocalRankingType } from "@/type";
 type Props = {
-  score: number,
+  scoreData: LocalRankingType,
   index: number,
   key: number
 }
-const LRankElement = ({ score, index }: Props) => {
+const LRankElement = ({ scoreData, index }: Props) => {
   const [isClicked, setIsClicked] = useState(false);
   return (
-    <motion.div className="grid grid-cols-10 row-span-1 items-center border-b-2 border-slate-500"
+    <div className="h-full flex justify-center gap-5 flex-col  row-span-1 border-b-2 border-slate-500"
       onClick={() => setIsClicked(!isClicked)}
-      animate={{ gridRow: isClicked ? "span 2" : "span 1" }}
-      transition={{ duration: 0.5 }}>
-      <div className="col-span-1"></div>
-      <p className="col-span-1 text-center font-bold text-3xl">{index + 1}</p>
-      <div className="col-span-3"></div>
-      <p className="col-span-5 text-center text-2xl">{score.toFixed(2)}</p>
-    </motion.div>
+      style={{ gridRow: !isClicked ? "span 1" : "span 2" }}>
+      <motion.div className="grid grid-cols-10  items-center "
+      >
+        <div className="col-span-1"></div>
+        <p className="col-span-1 text-center  text-3xl">{index + 1}</p>
+        <div className="col-span-3"></div>
+        <p className="col-span-5 text-center text-2xl font-bold select-none">{scoreData.score.toFixed(2)}</p>
+      </motion.div>
+      <AnimatePresence>
+        {isClicked && (
+          <motion.div
+            initial={{ opacity: 0, scaleY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            exit={{ opacity: 0, transition: { duration: 0 } }}
+            transition={{ duration: 0.3 }}
+            className=" h-1/2 flex flex-col justify-center">
+            <div className="grid grid-cols-10 items-center">
+              <div className="col-span-6 flex justify-between mx-8">
+                <p className="font-bold text-2xl ">Points:</p>
+                {scoreData.pointDetail.map((point, index) => {
+                  return (
+                    <p key={index} className="text-lg my-auto">{point.toFixed(1)}</p>
+                  )
+                })}
+              </div>
+              <p className="col-span-2 text-center">{scoreData.date}</p>
+              <p className="col-span-2 text-center">{scoreData.name}</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   )
 }
 
