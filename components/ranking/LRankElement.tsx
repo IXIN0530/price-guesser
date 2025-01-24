@@ -12,6 +12,7 @@ type Props = {
 const LRankElement = ({ scoreData, index }: Props) => {
   const { pointColor } = functions()
   const [isClicked, setIsClicked] = useState(false);
+  const scores = scoreData.pointDetail;
   //後ろにth,st,nd,rdをつける関数
   const addSuffix = (num: number) => {
     if (num == 1) return num + "st";
@@ -49,43 +50,18 @@ const LRankElement = ({ scoreData, index }: Props) => {
             className=" flex flex-col justify-center">
             <div className="grid grid-cols-10 items-center h-full ">
               <p className="font-bold text-2xl col-span-2 ">score:</p>
-              <div className="col-span-4   h-full grid grid-rows-2 grid-cols-7  overflow-y-scroll">
-                {scoreData.pointDetail.map((point, index) => {
-                  if (index == 0 || index == 1)
-                    return (
-                      <div key={index} className="text-lg my-auto font-bold row-span-1 col-span-2 text-right grid grid-cols-2"
-                        style={{ color: pointColor(point) }}>
-                        <div className=""></div>
-                        <p className="text-center">
-                          {point.toFixed(1)}
-                        </p>
-                      </div>
-                    )
-                  else if (index == 2)
-                    return (
-                      <p key={index} className="text-lg my-auto font-bold col-span-3 row-span-1 text-right "
-                        style={{ color: pointColor(point) }}>
-                        {point.toFixed(1)}
-                        <br></br>
-                      </p>
-                    )
-                  else if (index == 3)
-                    return (
-                      <p key={index} className="text-lg my-auto font-bold col-span-3 row-span-1 text-center"
-                        style={{ color: pointColor(point) }}>
-                        {point.toFixed(1)}
-                      </p>
-                    )
-                  else
-                    return (
-                      <p key={index} className="text-lg my-auto font-bold col-span-2 row-span-1 text-left"
-                        style={{ color: pointColor(point) }}>
-                        {point.toFixed(1)}
-                      </p>
-                    )
-
-                })}
-              </div>
+              {scores.length > 0 ?
+                <div className="col-span-4   h-full grid grid-rows-2 overflow-x-scroll">
+                  <div className="row-span-1 flex justify-center gap-2 font-bold">
+                    <p style={{ color: pointColor(scores[0]) }}>{scores[0].toFixed(1)}</p>
+                    <p style={{ color: pointColor(scores[1]) }}>{scores[1].toFixed(1)}</p>
+                    <p style={{ color: pointColor(scores[2]) }}>{scores[2].toFixed(1)}</p>
+                  </div>
+                  <div className="row-span-1 flex justify-center gap-2 font-bold">
+                    <p style={{ color: pointColor(scores[3]) }}>{scores[3].toFixed(1)}</p>
+                    <p style={{ color: pointColor(scores[4]) }}>{scores[4].toFixed(1)}</p>
+                  </div>
+                </div> : <div></div>}
               <p className="col-span-2 text-center overflow-hidden">{scoreData.date}</p>
               <p className="col-span-2 text-center overflow-hidden">{scoreData.name}</p>
             </div>
