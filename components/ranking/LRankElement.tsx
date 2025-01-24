@@ -1,14 +1,16 @@
 "use client"
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, color, motion } from "framer-motion";
 import { LocalRankingType } from "@/type";
+import functions from "../functions";
 type Props = {
   scoreData: LocalRankingType,
   index: number,
   key: number
 }
 const LRankElement = ({ scoreData, index }: Props) => {
+  const { pointColor } = functions()
   const [isClicked, setIsClicked] = useState(false);
   return (
     <div className="h-full flex justify-center gap-5 flex-col  row-span-1 border-b-2 border-slate-500"
@@ -29,17 +31,18 @@ const LRankElement = ({ scoreData, index }: Props) => {
             exit={{ opacity: 0, transition: { duration: 0 } }}
             transition={{ duration: 0.3 }}
             className=" h-1/2 flex flex-col justify-center">
-            <div className="grid grid-cols-10 items-center">
-              <div className="col-span-6 flex justify-between mx-8">
-                <p className="font-bold text-2xl ">Points:</p>
+            <div className="grid grid-cols-10 items-center ">
+              <p className="font-bold text-2xl col-span-2 ">Points:</p>
+              <div className="col-span-4 flex justify-between mx-2 gap-2 overflow-scroll">
                 {scoreData.pointDetail.map((point, index) => {
                   return (
-                    <p key={index} className="text-lg my-auto">{point.toFixed(1)}</p>
+                    <p key={index} className="text-lg my-auto font-bold"
+                      style={{ color: pointColor(point) }}>{point.toFixed(1)}</p>
                   )
                 })}
               </div>
-              <p className="col-span-2 text-center">{scoreData.date}</p>
-              <p className="col-span-2 text-center">{scoreData.name}</p>
+              <p className="col-span-2 text-center overflow-hidden">{scoreData.date}</p>
+              <p className="col-span-2 text-center overflow-hidden">{scoreData.name}</p>
             </div>
           </motion.div>
         )}
