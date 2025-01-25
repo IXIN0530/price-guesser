@@ -1,16 +1,19 @@
 import { LocalRankingType, QuestionType } from "@/type";
 import { pre } from "framer-motion/m";
+import { start } from "repl";
 
 export default function functions() {
   //データ取得のためのクエリを作成する関数
   const makeQuery = () => {
     const textArray = text.split("")
     const searchWord = textArray[Math.floor(Math.random() * textArray.length)]
+    const startIndex = Math.floor(Math.random() * 500);
     const appid = process.env.API_KEY;
     return {
       "appid": appid || "",
       "query": searchWord,
       "results": 100,
+      "start": startIndex,
     }
   }
 
