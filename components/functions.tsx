@@ -1,5 +1,5 @@
-import { LocalRankingType, QuestionType } from "@/type";
-import { pre } from "framer-motion/m";
+import { globalRankingType, LocalRankingType, QuestionType } from "@/type";
+import { p, pre } from "framer-motion/m";
 import { start } from "repl";
 
 export default function functions() {
@@ -75,6 +75,24 @@ export default function functions() {
     return localRanking;
   }
 
+  //globalRankingのデータを生成
+  const makeGlobalRanking = (score: number, pointDetail: number[]) => {
+    //pointDetailにはusestateの関係か、最後の値が入っていない。
+    //そのため、最後の値を追加して返す。
+    const lastValue = score - pointDetail.reduce((a, b) => a + b, 0);
+    const date = new Date();
+    const globalRanking: globalRankingType = {
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+      score: score,
+      //idはサーバー側で設定
+      id: 0,
+      scoreDetail: pointDetail[0].toString() + "," + pointDetail[1].toString() + "," + pointDetail[2].toString() + "," + pointDetail[3].toString() + "," + lastValue.toString() + "," + localStorage.getItem("PlayerName") || "名無し",
+    }
+    return globalRanking;
+  }
+
   //Pointsの色を返す
   const pointColor = (point: number) => {
     if (point >= 95) return "#FF0000";
@@ -127,6 +145,7 @@ export default function functions() {
     pointColor,
     convertOldData,
     compareDate,
+    makeGlobalRanking,
   }
 }
 

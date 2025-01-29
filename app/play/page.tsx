@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Suspense, useEffect, useRef, useState } from "react";
 import functions from "@/components/functions";
 import axios from "axios";
-import { LocalRankingType, QuestionType } from "@/type";
+import { globalRankingType, LocalRankingType, QuestionType } from "@/type";
 import QuestionField from "@/components/questionField";
 import Loading from "@/components/loading";
 import { div, pre } from "framer-motion/m";
@@ -39,7 +39,8 @@ function Home() {
   const { makeQuery,
     makeQuestions,
     scoreConvert,
-    makeLocalRanking } = functions();
+    makeLocalRanking,
+    makeGlobalRanking } = functions();
 
   //商品情報をランダムに取得
   const fetchItem = async () => {
@@ -78,9 +79,28 @@ function Home() {
     }
   }
 
+  //ポストするための非同期関数
+  const postData = async (data: globalRankingType) => {
+    try {
+      const res = await axios.post("/api/database", data);
+    }
+    catch (e) {
+      alert(e);
+    }
+  }
+
   const saveData = (score: number) => {
+    //今までのプレイ回数
+    const playTime = localStorage.getItem("playTime");
+    if (playTime == null) localStorage.setItem("playTime", "1");
+    else localStorage.setItem("playTime", (Number(playTime) + 1).toString())
+
     //スコアアブジェクトの生成
     const thisScoreData = makeLocalRanking(score, scoreArray);
+    //グローバルに関しても生成
+    const globalRankingData = makeGlobalRanking(score, scoreArray);
+    //サーバーにアップロード
+    postData(globalRankingData);
     //一旦ローカルに保存
     const preData = localStorage.getItem("preScore");
     if (preData == null) {

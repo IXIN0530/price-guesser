@@ -45,13 +45,24 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
 
 }
 
-
-export const POST = async () => {
-  const tempData = {
-    year: 2021,
-    month: 1,
-    day: 1,
-    scoreDetail: '1,2,3',
-    score: 6,
+export const POST = async (req: NextRequest) => {
+  const body: any = await req.json()
+  const { day, id, month, score, scoreDetail, year } = body;
+  //送信データの作成
+  const sendData = {
+    day: day,
+    month: month,
+    score: score,
+    scoreDetail: scoreDetail,
+    year: year
+  }
+  //データの送信
+  try {
+    const res = await supabase.from("scoreData").insert(sendData);
+    return NextResponse.json({ message: "POST" });
+  }
+  catch (error) {
+    alert(error);
+    return NextResponse.json({ message: error });
   }
 }
