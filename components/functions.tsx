@@ -81,6 +81,7 @@ export default function functions() {
     //そのため、最後の値を追加して返す。
     const lastValue = score - pointDetail.reduce((a, b) => a + b, 0);
     const date = new Date();
+    const name = localStorage.getItem("PlayerName") || "名無し";
     const globalRanking: globalRankingType = {
       day: date.getDate(),
       month: date.getMonth() + 1,
@@ -88,7 +89,7 @@ export default function functions() {
       score: score,
       //idはサーバー側で設定
       id: 0,
-      scoreDetail: pointDetail[0].toString() + "," + pointDetail[1].toString() + "," + pointDetail[2].toString() + "," + pointDetail[3].toString() + "," + lastValue.toString() + "," + localStorage.getItem("PlayerName") || "名無し",
+      scoreDetail: pointDetail[0].toString() + "," + pointDetail[1].toString() + "," + pointDetail[2].toString() + "," + pointDetail[3].toString() + "," + lastValue.toString() + "," + name.slice(0, 20),
     }
     return globalRanking;
   }
