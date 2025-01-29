@@ -3,6 +3,7 @@
 import functions from "@/components/functions";
 import { globalRankingType } from "@/type";
 import axios from "axios";
+import { param } from "framer-motion/m";
 import { useEffect, useRef, useState } from "react";
 
 export default function Page() {
@@ -13,7 +14,8 @@ export default function Page() {
   //getAll==0...日付文だけ 1...全て取得
   const [params, setParams] = useState<Params>({ date: date, getAll: 0 });
   // 一度取得したデータを保存しておく.
-  const [fetchedData, setFetchedData] = useState<FetchedData[]>([]);
+  // const [fetchedData, setFetchedData] = useState<FetchedData[]>([]);
+  const fetchedData = useRef<FetchedData[]>([])
   //初回マウント
   const didMount = useRef(false);
   //データの取得中かどうか
@@ -23,22 +25,45 @@ export default function Page() {
 
   //データがすでに取得されてるかを確認するための関数
   const isFetched = (p: Params) => {
-    var isFetched = false;
     var returnData: FetchedData | null = null;
-    fetchedData.forEach(e => {
+    const _fetchedData = [...fetchedData.current]
+    _fetchedData.forEach(e => {
       //全てのデータが一旦Fetchされた時
       if (e.date == null && p.getAll == 1) {
-        isFetched = true;
         returnData = e;
       }
       else if (e.date != null) {
         if (compareDate(e.date, p.date)) {
-          isFetched = true;
+          // console.log("どちらも" + p.date.getDate())
           returnData = e;
         }
       }
     });
     return returnData;
+  }
+
+  //n日進む(戻る)ボタンが押された時の処理
+  const changeDate = (num: number) => {
+    //新規でインスタンスを作る。
+    const nowDate = new Date(params.date);
+    //n日進める
+    nowDate.setDate(nowDate.getDate() + num);
+    console.log(params.date)
+    //新しいparamとしてdataFetchを呼び出す
+    //ただし、前のdatafetchの呼び出しが完了してからに限る
+    if (!isFetching.current) {
+      dataFetch({
+        date: nowDate,
+        getAll: 0
+      })
+      setParams({
+        date: nowDate,
+        getAll: 0
+      })
+    }
+    else {
+      alert("ただいまデータの取得中です。")
+    }
   }
 
   const dataFetch = async (params: Params) => {
@@ -57,6 +82,7 @@ export default function Page() {
       if (isFetched(params) != null) {
         console.log("すでに取得済みでした")
         const temp: FetchedData = isFetched(params)!
+        console.log(temp);
         setRankingData(temp.data);
         isFetching.current = false;
         return;
@@ -67,10 +93,16 @@ export default function Page() {
       //表示データに格納
       setRankingData(res_data);
       //取得済みのデータに格納
-      setFetchedData([...fetchedData, {
+      // setFetchedData([...fetchedData, {
+      //   date: params.getAll == 1 ? null : params.date,
+      //   data: res_data,
+      // }]);
+      fetchedData.current = [...fetchedData.current,
+      {
         date: params.getAll == 1 ? null : params.date,
         data: res_data,
-      }]);
+      }
+      ]
 
       console.log(res_data);
     }
@@ -87,7 +119,8 @@ export default function Page() {
   }, [])
   return (
     <div>
-      <h1>Ranking</h1>
+      <button onClick={() => changeDate(-1)}>＜-</button>
+      <button onClick={() => changeDate(1)}>-＞</button>
     </div>
   )
 }
