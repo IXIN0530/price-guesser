@@ -11,7 +11,7 @@ export default function Page() {
   //現在のパラメータ
   const date = new Date();
   //getAll==0...日付文だけ 1...全て取得
-  const [params, setParams] = useState<Params>({ date: date, getAll: 1 });
+  const [params, setParams] = useState<Params>({ date: date, getAll: 0 });
   // 一度取得したデータを保存しておく.
   const [fetchedData, setFetchedData] = useState<FetchedData[]>([]);
   //初回マウント
@@ -24,12 +24,21 @@ export default function Page() {
   //データがすでに取得されてるかを確認するための関数
   const isFetched = (p: Params) => {
     var isFetched = false;
+    var returnData: FetchedData | null = null;
     fetchedData.forEach(e => {
       //全てのデータが一旦Fetchされた時
-      if (e.day == null && p.getAll == 1) {
-
+      if (e.date == null && p.getAll == 1) {
+        isFetched = true;
+        returnData = e;
+      }
+      else if (e.date != null) {
+        if (compareDate(e.date, p.date)) {
+          isFetched = true;
+          returnData = e;
+        }
       }
     });
+    return returnData;
   }
 
   const dataFetch = async (params: Params) => {
@@ -45,7 +54,13 @@ export default function Page() {
     //データの取得に成功
     try {
       //一度もデータを取得していなかった場合、取得しにいく
-
+      if (isFetched(params) != null) {
+        console.log("すでに取得済みでした")
+        const temp: FetchedData = isFetched(params)!
+        setRankingData(temp.data);
+        isFetching.current = false;
+        return;
+      }
       const res = await axios.get("/api/database", { params: query });
       isFetching.current = false;
       const res_data: globalRankingType[] = res.data["data"]
@@ -53,7 +68,7 @@ export default function Page() {
       setRankingData(res_data);
       //取得済みのデータに格納
       setFetchedData([...fetchedData, {
-        day: params.getAll == 1 ? null : params.date,
+        date: params.getAll == 1 ? null : params.date,
         data: res_data,
       }]);
 
@@ -84,6 +99,6 @@ type Params = {
 
 type FetchedData = {
   // nullの時は今まで全てのデータのこと
-  day: Date | null,
+  date: Date | null,
   data: globalRankingType[]
 }
