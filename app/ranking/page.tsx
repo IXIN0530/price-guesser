@@ -7,6 +7,7 @@ import { param } from "framer-motion/m";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import GRankElement from "@/components/ranking/GRankElement";
+import Loading from "@/components/loading";
 
 export default function Page() {
   //現在表示するランキングのデータ
@@ -139,13 +140,22 @@ export default function Page() {
           </button>
         </div>
         <div className=" relative row-span-7 items-center overflow-y-scroll border-2 border-orange-300 bg-gradient-to-br from-orange-100 to-orange-50 ">
-          <div className=" absolute inset-0">
-            {rankingData.map((score, index) => {
-              return (
-                <GRankElement scoreData={score} index={index} key={index} />
-              )
-            })}
-          </div>
+          {isFetching.current &&
+            <div className="absolute inset-0 flex justify-center  items-center">
+              <div className="">
+                <Loading />
+              </div>
+            </div>
+          }
+          {!isFetching.current &&
+            <div className=" absolute inset-0">
+              {rankingData.map((score, index) => {
+                return (
+                  <GRankElement scoreData={score} index={index} key={index} />
+                )
+              })}
+            </div>
+          }
         </div>
         <div className="row-span-2 my-auto">
           <Link href={"./"} className=" flex flex-row justify-center gap-1 items-center">
