@@ -3,7 +3,7 @@ import { globalRankingType } from "@/type";
 import { data } from "framer-motion/m";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (req: NextRequest, res: NextResponse) => {
+export const GET = async (req: NextRequest) => {
   //クエリを取得
   const { searchParams } = new URL(req.url);
   const year = Number(searchParams.get("year"));
