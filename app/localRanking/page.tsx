@@ -8,6 +8,7 @@ const Home = () => {
   const didMount = useRef(false);
   const [preScoreArray, setPreScoreArray] = useState<LocalRankingType[]>([]);
 
+
   useEffect(() => {
     //初回マウント時
     if (!didMount.current) {
