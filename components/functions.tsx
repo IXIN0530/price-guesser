@@ -110,6 +110,14 @@ export default function functions() {
     localStorage.setItem("preScore", JSON.stringify(newArray));
     console.log(newArray);
   }
+
+  //Dateオブジェクト同士を比較
+  const compareDate = (date1: Date, date2: Date) => {
+    return date1.getFullYear() == date2.getFullYear() &&
+      date1.getMonth() == date2.getMonth() &&
+      date1.getDate() == date2.getDate()
+  }
+
   return {
     makeQuery,
     makeQuestions,
@@ -118,6 +126,7 @@ export default function functions() {
     makeLocalRanking,
     pointColor,
     convertOldData,
+    compareDate,
   }
 }
 

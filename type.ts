@@ -1,3 +1,5 @@
+import { Database } from "./types/supabase";
+
 export type QuestionType = {
     description: string;
     price: number;
@@ -11,3 +13,5 @@ export type LocalRankingType = {
     date: string;
     pointDetail: number[];
 }
+
+export type globalRankingType = Database["public"]["Tables"]["scoreData"]["Row"]

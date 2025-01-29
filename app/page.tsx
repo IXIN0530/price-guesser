@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import functions from "@/components/functions";
+import axios from "axios";
 export default function Home() {
   //nameにフォーカスしているかどうか
   const [isFocused, setIsFocused] = useState(false);
@@ -36,12 +37,17 @@ export default function Home() {
         nameRef.current!.value = localStorage.getItem("PlayerName")!;
         // localStorage.removeItem("preScore");
         // localStorage.setItem("preScore", JSON.stringify([499, 400, 400, 400, 400, 400, 400]));
+        test();
       }
       //旧データを変換
       convertOldData();
       return;
     }
   }, [])
+
+  const test = () => {
+
+  }
   return (
     <div className="min-h-[100svh] grid grid-rows-10">
       <div className="row-span-6 flex justify-center items-center">
