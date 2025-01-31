@@ -39,6 +39,10 @@ export default function Home() {
         // localStorage.setItem("preScore", JSON.stringify([499, 400, 400, 400, 400, 400, 400]));
         test();
       }
+      //未ログイン状態の時、促す
+      if (localStorage.getItem("playerID") === null) {
+        alert("ただいまゲスト状態です。\nログインすることで自身のランキング情報を保存できます。")
+      }
       //旧データを変換
       convertOldData();
       return;
