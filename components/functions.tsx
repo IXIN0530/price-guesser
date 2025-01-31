@@ -90,6 +90,7 @@ export default function functions() {
       //idはサーバー側で設定
       id: 0,
       scoreDetail: pointDetail[0].toString() + "," + pointDetail[1].toString() + "," + pointDetail[2].toString() + "," + pointDetail[3].toString() + "," + lastValue.toString() + "," + name.slice(0, 20),
+      playerID: localStorage.getItem("playerID") || "guest",
     }
     return globalRanking;
   }

@@ -85,8 +85,11 @@ export default function Home() {
         </motion.button>
       </div>
       <div className="bg-gray-0 row-span-1 my-auto flex justify-center gap-10">
-        <Link href={"/rules"} className=" underline text-sm">
+        {/* <Link href={"/rules"} className=" underline text-sm">
           点数の計算方式
+        </Link> */}
+        <Link href={"/login"} className=" underline text-sm">
+          ログイン関連
         </Link>
         <Link href={"/localRanking"} className=" underline text-sm">
           Myランキング

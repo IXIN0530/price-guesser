@@ -15,3 +15,5 @@ export type LocalRankingType = {
 }
 
 export type globalRankingType = Database["public"]["Tables"]["scoreData"]["Row"]
+
+export type PlayerDataType = Database["public"]["Tables"]["playerData"]["Row"]

@@ -25,7 +25,12 @@ function Home() {
   //プレイヤー名
   const playerName = useSearchParams().get("name");
   const [isFocused, setIsFocused] = useState(false);
+  //priceInputのref
   const priceRef = useRef<HTMLInputElement>(null);
+  //タイトルのref
+  const titleRef = useRef<HTMLDivElement>(null);
+  //説明文のref
+  const descriptionRef = useRef<HTMLDivElement>(null);
   //問題の情報
   const [questions, setQuestions] = useState<QuestionType[]>();
   //今何問目
@@ -135,6 +140,13 @@ function Home() {
     }
   }
 
+  //Enterキーが押された時にOnClickを実行する
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      OnClick();
+    }
+  }
+
   //GuessButtonをクリックしたとき
   const OnClick = () => {
     //まだ問題が始まっていない場合
@@ -209,7 +221,8 @@ function Home() {
             scale: isFocused ? 1.01 : 1,
           }}
           transition={{ duration: 0.3, type: "spring", ease: "easeInOut", stiffness: 1000 }}
-          ref={priceRef}>
+          ref={priceRef}
+          onKeyDown={handleKeyDown}>
         </motion.input>
       </div>
       <div className="row-span-1  flex flex-row">

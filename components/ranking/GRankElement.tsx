@@ -39,7 +39,7 @@ const GRankElement = ({ scoreData, index }: Props) => {
         <div className="col-span-2"></div>
         <p className="col-span-3 text-center text-2xl font-bold select-none">{scoreData.score!.toFixed(2)}</p>
         <div className="col-span-3 select-none overflow-x-scroll ">
-          <p className="text-center overflow-x-scroll whitespace-nowrap">
+          <p className="text-center  whitespace-nowrap">
             {name}
           </p>
         </div>
