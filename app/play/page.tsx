@@ -176,6 +176,8 @@ function Home() {
       alert("You guessed " + price + " yen\nThe answer is " + answer + " yen\nThe score is " + thisScore.toFixed(2));
       //次に問題がある場合、進む。
       if (questionNum < howMany - 1) {
+        titleRef.current!.scrollTop = 0;
+        descriptionRef.current!.scrollTop = 0;
         setQuestionNum(questionNum + 1);
       }
       else {
@@ -207,7 +209,7 @@ function Home() {
         <p className="text-center text-2xl font-bold">Question {questionNum + 1}</p>
       </div>
       <div className="row-span-5 flex justify-center items-center ">
-        {questions && <QuestionField data={questions[questionNum]} />}
+        {questions && <QuestionField data={questions[questionNum]} titleRef={titleRef} descriptionRef={descriptionRef} />}
         {!questions && <Loading />}
       </div>
       <div className="flex flex-row row-span-2">

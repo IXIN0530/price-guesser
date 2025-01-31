@@ -4,8 +4,10 @@ import Image from "next/image";
 
 type Props = {
   data: QuestionType
+  titleRef: React.RefObject<HTMLDivElement | null>
+  descriptionRef: React.RefObject<HTMLDivElement | null>
 }
-const QuestionField = ({ data }: Props) => {
+const QuestionField = ({ data, titleRef, descriptionRef }: Props) => {
   //functionを取得
   const { convertDescription } = functions();
   if (!data) return null;
@@ -22,12 +24,14 @@ const QuestionField = ({ data }: Props) => {
           unoptimized />
       </div>
       <div className="row-span-1 grid grid-cols-4">
-        <div className="col-span-3 overflow-y-scroll">
+        <div className="col-span-3 overflow-y-scroll"
+          ref={descriptionRef}>
           <p className="text-lg whitespace-pre-wrap select-none">
             {convertDescription(data.description)}
           </p>
         </div>
-        <div className="col-span-1 overflow-y-scroll select-none">
+        <div className="col-span-1 overflow-y-scroll select-none"
+          ref={titleRef}>
           <p className="text-sm text-center py-2 font-bold underline">
             Title
           </p>
