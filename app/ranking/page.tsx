@@ -125,7 +125,7 @@ export default function Page() {
       <div className=" grid grid-rows-11 max-w-[1000px] mx-auto absolute inset-0">
         <div className="row-span-1 my-auto  text-xl flex flex-col justify-center">
           <p className="text-xl text-center font-bold">ランキング</p>
-          <p className="text-lg text-center">{params.date.getFullYear() + "年" + params.date.getMonth() + 1 + "月" + params.date.getDate() + "日"}</p>
+          <p className="text-lg text-center">{params.date.getFullYear() + "年" + (params.date.getMonth() + 1) + "月" + params.date.getDate() + "日"}</p>
         </div>
         <div className="row-span-1 flex flex-row justify-center gap-2 my-2">
           <button onClick={() => changeDate(-1)} className="px-3 bg-gradient-to-br from-orange-400 to-orange-300 rounded-lg shadow-lg text-white font-bold text-xl">
