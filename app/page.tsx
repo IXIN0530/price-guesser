@@ -50,7 +50,7 @@ export default function Home() {
   }, [])
 
   const test = async () => {
-    axios.get("/api/playerDatabase/batchUpdate");
+    //axios.get("/api/playerDatabase/batchUpdate");
   }
   return (
     <div className="min-h-[100svh] grid grid-rows-10">
