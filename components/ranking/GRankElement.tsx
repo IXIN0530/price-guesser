@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, color, motion } from "framer-motion";
 import { globalRankingType, LocalRankingType } from "@/type";
+import Image from "next/image";
 import functions from "../functions";
 type Props = {
   scoreData: globalRankingType,
@@ -39,6 +40,42 @@ const GRankElement = ({ scoreData, index }: Props) => {
         <div className="col-span-2"></div>
         <p className="col-span-3 text-center text-2xl font-bold select-none">{scoreData.score!.toFixed(2)}</p>
         <div className="col-span-3 select-none overflow-x-scroll ">
+          <div className="text-sm  flex justify-center gap-2">
+            {scoreData.goldNum != 0 ?
+              <div className=" flex justify-center gap-0 items-center">
+                <Image src={"/medals/Gold.png"}
+                  width={15}
+                  height={0}
+                  alt=""
+                  layout="intrinsic"
+                  unoptimized></Image>
+                <div className="text-xs">{scoreData.goldNum}</div>
+              </div>
+              : <></>}
+            {scoreData.silverNum != 0 ?
+              <div className=" flex justify-center gap-0 items-center">
+                <Image src={"/medals/Silver.png"}
+                  width={15}
+                  height={0}
+                  alt=""
+                  layout="intrinsic"
+                  unoptimized></Image>
+                <div className="text-xs">{scoreData.silverNum}</div>
+              </div>
+              : <></>}
+            {scoreData.bronzeNum != 0 ?
+              <div className=" flex justify-center gap-0 items-center">
+                <Image src={"/medals/Bronze.png"}
+                  width={15}
+                  height={0}
+                  alt=""
+                  layout="intrinsic"
+                  unoptimized></Image>
+                <div className="text-xs">{scoreData.bronzeNum}</div>
+              </div>
+              : <></>}
+
+          </div>
           <p className="text-center  whitespace-nowrap">
             {name}
           </p>
