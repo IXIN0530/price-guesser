@@ -13,9 +13,9 @@ export type Database = {
         Row: {
           bronzeNum: number | null
           goldNum: number | null
+          silverNum: number | null
           id: number
           playerID: string
-          silverNum: number | null
           password: string | null
           name: string | null
         }
@@ -48,6 +48,9 @@ export type Database = {
           score: number | null
           scoreDetail: string | null
           year: number
+          bronzeNum: number | null
+          goldNum: number | null
+          silverNum: number | null
         }
         Insert: {
           day?: number | null
@@ -56,7 +59,10 @@ export type Database = {
           playerID?: string | null
           score?: number | null
           scoreDetail?: string | null
-          year: number
+          year?: number
+          bronzeNum?: number | null
+          goldNum?: number | null
+          silverNum?: number | null
         }
         Update: {
           day?: number | null
@@ -66,6 +72,9 @@ export type Database = {
           score?: number | null
           scoreDetail?: string | null
           year?: number
+          bronzeNum?: number | null
+          goldNum?: number | null
+          silverNum?: number | null
         }
         Relationships: []
       }

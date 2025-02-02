@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Suspense, useEffect, useRef, useState } from "react";
 import functions from "@/components/functions";
 import axios from "axios";
-import { globalRankingType, LocalRankingType, QuestionType } from "@/type";
+import { globalRankingType, LocalRankingType, PlayerDataType, QuestionType } from "@/type";
 import QuestionField from "@/components/questionField";
 import Loading from "@/components/loading";
 import { div, pre } from "framer-motion/m";
@@ -191,13 +191,35 @@ function Home() {
       }
     }
   }
+  //最新のメダル取得情報を取得
+  const getMedal = async () => {
+    try {
+      const data = {
+        playerID: localStorage.getItem("playerID") || "",
+        password: localStorage.getItem("password") || ""
+      }
+      const res = await axios.get("/api/playerDatabase", { params: data });
+      const resData: PlayerDataType[] = res.data["data"];
+      //未ログイン状態
+      if (resData.length == 0) {
+        return;
+      }
+      //メダルの情報を取得し、localに保存
+      localStorage.setItem("goldNum", resData[0].goldNum!.toString());
+      localStorage.setItem("silverNum", resData[0].silverNum!.toString());
+      localStorage.setItem("bronzeNum", resData[0].bronzeNum!.toString());
+    }
+    catch (e) {
+      alert(e);
+    }
+  }
   useEffect(() => {
     if (!didMount.current) {
       didMount.current = true;
       console.log("first load")
       //問題の取得
       fetchItem();
-
+      getMedal();
     } else {
       console.log("loaded")
     }

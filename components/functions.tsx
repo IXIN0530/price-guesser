@@ -1,4 +1,5 @@
 import { globalRankingType, LocalRankingType, QuestionType } from "@/type";
+import { toZonedTime } from "date-fns-tz";
 import { p, pre } from "framer-motion/m";
 import { start } from "repl";
 
@@ -80,7 +81,7 @@ export default function functions() {
     //pointDetailにはusestateの関係か、最後の値が入っていない。
     //そのため、最後の値を追加して返す。
     const lastValue = score - pointDetail.reduce((a, b) => a + b, 0);
-    const date = new Date();
+    const date = toZonedTime(new Date(), "Asia/Tokyo");
     const name = localStorage.getItem("PlayerName") || "名無し";
     const globalRanking: globalRankingType = {
       day: date.getDate(),
@@ -91,6 +92,9 @@ export default function functions() {
       id: 0,
       scoreDetail: pointDetail[0].toString() + "," + pointDetail[1].toString() + "," + pointDetail[2].toString() + "," + pointDetail[3].toString() + "," + lastValue.toString() + "," + name.slice(0, 20),
       playerID: localStorage.getItem("playerID") || "guest",
+      goldNum: Number(localStorage.getItem("goldNum") || "0"),
+      silverNum: Number(localStorage.getItem("silverNum") || "0"),
+      bronzeNum: Number(localStorage.getItem("bronzeNum") || "0"),
     }
     return globalRanking;
   }

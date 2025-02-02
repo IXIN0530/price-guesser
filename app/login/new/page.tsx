@@ -13,6 +13,10 @@ export default function Page() {
       alert("IDまたはパスワードが未入力です。");
       return;
     }
+    else if (idRef.current!.value == "guest" || idRef.current!.value == "developer") {
+      alert("そのIDは使用できません。");
+      return;
+    }
     //アカウント情報を送信
     const data = {
       playerID: idRef.current!.value,

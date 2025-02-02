@@ -47,7 +47,7 @@ export const GET = async (req: NextRequest) => {
 
 export const POST = async (req: NextRequest) => {
   const body: any = await req.json()
-  const { day, id, month, score, scoreDetail, year, playerID } = body;
+  const { day, id, month, score, scoreDetail, year, playerID, goldNum, silverNum, bronzeNum } = body;
   //送信データの作成
   const sendData = {
     day: day,
@@ -56,6 +56,9 @@ export const POST = async (req: NextRequest) => {
     scoreDetail: scoreDetail,
     year: year,
     playerID: playerID,
+    goldNum: goldNum,
+    silverNum: silverNum,
+    bronzeNum: bronzeNum,
   }
   //データの送信
   try {
