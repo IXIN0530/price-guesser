@@ -194,8 +194,6 @@ function Home() {
   //最新のメダル取得情報を取得 メダル情報の更新
   const getMedal = async () => {
     try {
-      //ランキングデータの更新
-      axios.get("/api/playerDatabase/batchUpdate");
 
       const data = {
         playerID: localStorage.getItem("playerID") || "",
@@ -211,6 +209,8 @@ function Home() {
       localStorage.setItem("goldNum", resData[0].goldNum!.toString());
       localStorage.setItem("silverNum", resData[0].silverNum!.toString());
       localStorage.setItem("bronzeNum", resData[0].bronzeNum!.toString());
+      //ランキングデータの更新
+      await axios.get("/api/playerDatabase/batchUpdate");
     }
     catch (e) {
       alert(e);
