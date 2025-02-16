@@ -8,15 +8,16 @@ import { globalRankingType } from "@/type";
 export const GET = async (req: NextRequest) => {
   const { compareDate } = functions();
   try {
+    //金銀銅の中で一番更新された履歴が古いものを最終更新日とする
     const res =
       await supabase
         .from("playerData")
         .select("*")
         .eq("playerID", "developer")
         .eq("password", "batchUpdater")
-        .order("goldNum", { ascending: false })
-        .order("silverNum", { ascending: false })
-        .order("bronzeNum", { ascending: false });
+        .order("goldNum", { ascending: true })
+        .order("silverNum", { ascending: true })
+        .order("bronzeNum", { ascending: true });
 
     const resData = res.data || [];
     //昨日のバッチを配布したかを確認
@@ -166,6 +167,15 @@ export const GET = async (req: NextRequest) => {
         })
       }
 
+      //並列的に各メダルの更新日を最新にするための関数
+      async function updateMedalDate(medal: string) {
+        await supabase
+          .from("playerData")
+          .update({ goldNum: latest.getFullYear(), silverNum: latest.getMonth() + 1, bronzeNum: latest.getDate() })
+          .eq("playerID", "developer")
+          .eq("name", medal);
+      }
+
       //非同期関数が全て終わおわったら実行される。
       async function end() {
         if (numAsync == 0 && counter == 0) {
@@ -173,44 +183,99 @@ export const GET = async (req: NextRequest) => {
           counter++;
           console.log(giveMedalObj);
           //メダルを配布
+          //ラグですでに配布されている可能性があるので、goldの最終更新がlatestと一致していないかを
+          //調べてから更新する
+
+          var isGoldUpdated = false;
+          const res = await supabase
+            .from("playerData")
+            .select("goldNum,silverNum,bronzeNum")
+            .eq("playerID", "developer")
+            .eq("name", "G");
+          //もしもlatestがすでにDatabaseに反映済みだった場合
+          if (latest.getFullYear() == res.data![0].goldNum
+            && latest.getMonth() == res.data![0].silverNum
+            && latest.getDate() == res.data![0].bronzeNum) {
+            isGoldUpdated = true;
+          }
           for (const [key, value] of Object.entries(giveMedalObj.gold)) {
-            await supabase
-              .from("playerData")
-              .update({ goldNum: value })
-              .eq("playerID", key);
-            //ランキングデータ上のメダルも更新
-            await supabase
-              .from("scoreData")
-              .update({ goldNum: value })
-              .eq("playerID", key);
+            //すでに更新済みでない場合のみ、Goldの数を更新
+            if (!isGoldUpdated) {
+              //最終更新日時の更新
+              updateMedalDate("G")
+              //playerDataの更新
+              await supabase
+                .from("playerData")
+                .update({ goldNum: value })
+                .eq("playerID", key);
+              //ランキングデータ上のメダルも更新
+              await supabase
+                .from("scoreData")
+                .update({ goldNum: value })
+                .eq("playerID", key);
+            }
+          }
+
+          var isSilverUpdated = false;
+          const resSil = await supabase
+            .from("playerData")
+            .select("goldNum,silverNum,bronzeNum")
+            .eq("playerID", "developer")
+            .eq("name", "S");
+          //もしもlatestがすでにDatabaseに反映済みだった場合
+          if (latest.getFullYear() == resSil.data![0].goldNum
+            && latest.getMonth() == resSil.data![0].silverNum
+            && latest.getDate() == resSil.data![0].bronzeNum) {
+            isSilverUpdated = true;
           }
           for (const [key, value] of Object.entries(giveMedalObj.silver)) {
-            await supabase
-              .from("playerData")
-              .update({ silverNum: value })
-              .eq("playerID", key);
-            //ランキングデータ上のメダルも更新
-            await supabase
-              .from("scoreData")
-              .update({ silverNum: value })
-              .eq("playerID", key);
+            if (!isSilverUpdated) {
+              //最終更新日時の更新
+              updateMedalDate("S")
+              //playerDataの更新
+              await supabase
+                .from("playerData")
+                .update({ silverNum: value })
+                .eq("playerID", key);
+              //ランキングデータ上のメダルも更新
+              await supabase
+                .from("scoreData")
+                .update({ silverNum: value })
+                .eq("playerID", key);
+            }
+          }
+
+          var isBroUpdated = false;
+          const resBro = await supabase
+            .from("playerData")
+            .select("goldNum,silverNum,bronzeNum")
+            .eq("playerID", "developer")
+            .eq("name", "G");
+          //もしもlatestがすでにDatabaseに反映済みだった場合
+          if (latest.getFullYear() == resBro.data![0].goldNum
+            && latest.getMonth() == resBro.data![0].silverNum
+            && latest.getDate() == resBro.data![0].bronzeNum) {
+            isBroUpdated = true;
           }
           for (const [key, value] of Object.entries(giveMedalObj.bronze)) {
-            await supabase
-              .from("playerData")
-              .update({ bronzeNum: value })
-              .eq("playerID", key);
-            //ランキングデータ上のメダルも更新
-            await supabase
-              .from("scoreData")
-              .update({ bronzeNum: value })
-              .eq("playerID", key);
+            if (!isBroUpdated) {
+              updateMedalDate("B")
+              await supabase
+                .from("playerData")
+                .update({ bronzeNum: value })
+                .eq("playerID", key);
+              //ランキングデータ上のメダルも更新
+              await supabase
+                .from("scoreData")
+                .update({ bronzeNum: value })
+                .eq("playerID", key);
+            }
           }
           //最新の日付を記録
-          await supabase
-            .from("playerData")
-            .update({ goldNum: latest.getFullYear(), silverNum: latest.getMonth() + 1, bronzeNum: latest.getDate() })
-            .eq("playerID", "developer");
+          // await supabase
+          //   .from("playerData")
+          //   .update({ goldNum: latest.getFullYear(), silverNum: latest.getMonth() + 1, bronzeNum: latest.getDate() })
+          //   .eq("playerID", "developer");
           //insertもしておく
           // await supabase
           //   .from("playerData")
